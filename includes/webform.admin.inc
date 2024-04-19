@@ -401,7 +401,8 @@ function webform_admin_content() {
 /**
  * Create a comma-separated list of content types that are webform-enabled.
  *
- * @see _webform_admin_empty_text()
+ * @return string
+ *   Comma-separated list of content types.
  */
 function webform_admin_type_list() {
   $webform_types = webform_node_types();
@@ -421,31 +422,9 @@ function webform_admin_type_list() {
 }
 
 /**
- * The text to be shown in the webforms listing when there are no webforms.
- *
- * This is used when the webforms listing is provided either by Views or by a
- * hard-coded table.
- *
- * @see webform_admin_type_list()
- * @see webform_admin_content()
- * @see theme_webform_admin_content
- */
-function _webform_admin_empty_text() {
-  $webform_types = webform_node_types();
-  if (empty($webform_types)) {
-    $message = t('Webform is currently not enabled on any content type.') . ' ' . t('Visit the <a href="!url">Webform settings</a> page and enable Webform on at least one content type.', array('!url' => url('admin/config/content/webform')));
-  }
-  else {
-    $webform_type_list = webform_admin_type_list();
-    $message = t('There are currently no webforms on your site. Create a !types piece of content.', array('!types' => $webform_type_list));
-  }
-  return $message;
-}
-
-/**
  * Generate a list of all webforms available on this site.
  *
- * This is used as a fallback, in cases like when the default view that provides
+ * This is used as a fallback for when the default view that provides
  * the webform listing is disabled.
  */
 function theme_webform_admin_content($variables) {
@@ -495,7 +474,35 @@ function theme_webform_admin_content($variables) {
 }
 
 /**
+ * The text to be shown in the webforms listing when there are no webforms.
+ *
+ * This is used when the webforms listing is provided either by Views or by a
+ * hard-coded table.
+ *
+ * @see webform_admin_content()
+ *
+ * @return string
+ *   Empty list message.
+ */
+function _webform_admin_empty_text() {
+  $webform_types = webform_node_types();
+  if (empty($webform_types)) {
+    $message = t('Webform is currently not enabled on any content type.') . ' ' . t('Visit the <a href="!url">Webform settings</a> page and enable Webform on at least one content type.', array('!url' => url('admin/config/content/webform')));
+  }
+  else {
+    $webform_type_list = webform_admin_type_list();
+    $message = t('There are currently no webforms on your site. Create a !types piece of content.', array('!types' => $webform_type_list));
+  }
+  return $message;
+}
+
+/**
  * Given a webform, return a list of links for its various "Results" sub-pages.
+ *
+ * @param Node $node
+ *
+ * @return array
+ *   List of operation links.
  */
 function _webform_admin_get_webform_view_links(Node $node) {
   $links = array();
@@ -522,6 +529,11 @@ function _webform_admin_get_webform_view_links(Node $node) {
 
 /**
  * Given a webform, return a list of operations that can be performed on it.
+ *
+ * @param Node $node
+ *
+ * @return array
+ *   List of operation links.
  */
 function _webform_admin_get_webform_operations(Node $node) {
   $links = array();
