@@ -66,7 +66,7 @@ function webform_admin_settings() {
     '#type' => 'checkbox',
     '#title' => t('HTML mail system'),
     '#default_value' => webform_variable_get('webform_email_html_capable'),
-    '#description' => t('Whether the mail system configured for webform is capable of sending mail in HTML format.'),
+    '#description' => t('Whether the mail system configured for webform is capable of sending mail in HTML format. Enabling this will also provide an option on webforms to include files as attachments.'),
   );
 
   $form['email']['webform_default_format'] = array(
